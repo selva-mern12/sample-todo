@@ -5,9 +5,7 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
-// let todos = [];
-
-mongoose.connect(process.env.URI)
+mongoose.connect(process.env.MONGO_URI)
 
 .then(() => {console.log('DB Connected')}
 )
@@ -71,7 +69,7 @@ app.put('/todos/:id', async (req, res) => {
     }
 });
 
-app.delete('todos/:id', async (req,res) => {
+app.delete('/todos/:id', async (req,res) => {
     try {
         const id = req.params.id;
         await todoModel.findByIdAndDelete(id);
@@ -82,4 +80,5 @@ app.delete('todos/:id', async (req,res) => {
     }
 })
 
-app.listen(process.env.PORT, () => console.log(`server running at http://localhost:${process.env.PORT}`));
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
